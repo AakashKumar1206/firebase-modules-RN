@@ -1,29 +1,65 @@
 import React, { Component } from 'react';
-import { View, TextInput} from 'react-native';
-import {Card, CardSection, Button } from './reusable-components'
+import firebase from 'firebase'
+import Card from './Card'
+import CardSection from './CardSection'
+import Button from './Button'
+import Input from './Input'
 
-class LoginForm extends Component{
+export default class LoginForm extends Component{
+    
+    state={
+        email:'',
+        password:''
+}
+
+onPressButton (){
+    const {email,password} =this.state
+firebase.auth().signInWithEmailAndPassword(email, password);
+}
+    
     render(){
         return(
-            <View>
+            
                 <Card>
-                    {/* Username/Email-Section */}
+                    {/* 
+                    ===================
+                    Username/Email-Section
+                    =================== */}
                     <CardSection>
-                        <TextInput  />
+                        <Input 
+                        placeholder="Enter your Email"
+                       label = "Email"
+                       onChangeText={(email)=>this.setState({email})}
+                        value={this.state.email}
+                       />
                     </CardSection>
                     
-                    {/*Password- Section  */}
+                    {/* 
+                    ===================
+                    Password- Section  
+                    ===================*/}
                     <CardSection>
-
+                        <Input 
+                            secureTextEntry={true}
+                            placeholder= "Password"
+                            label ="Password"
+                            onChangeText ={(password)=>this.setState({password})}
+                            value= {this.state.password}
+                         />   
 
                     </CardSection>
-                    
-                    {/* Login-Button Section */}
+        
+                    {/* 
+                    ===================
+                    Login-Button Section
+                    ==================== */}
                     <CardSection>
-                        <Button>Login</Button>
+                        <Button
+                        onPressButton={this.onPressButton.bind(this)}
+                        >Login</Button>
                     </CardSection>
                 </Card>
-            </View>
+           
         )
     }
 }
